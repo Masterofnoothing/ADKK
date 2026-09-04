@@ -5,6 +5,19 @@ import rehypeRaw from 'rehype-raw';
 import { ArrowLeft, Calendar, Tag, ChevronRight, Copy, Check } from 'lucide-react';
 import { loadBlogContent } from '../data/blogs';
 
+const assetBase = import.meta.env.BASE_URL || './';
+
+function resolveAssetUrl(url) {
+  if (!url) return url;
+  if (/^(?:[a-z]+:)?\/\//i.test(url) || url.startsWith('data:') || url.startsWith('blob:') || url.startsWith('#')) {
+    return url;
+  }
+
+  const base = assetBase === './' || assetBase === '.' ? './' : assetBase.replace(/\/$/, '');
+  const normalizedPath = url.replace(/^(?:\.\/|\/)+/, '');
+  return `${base}/${normalizedPath}`.replace(/\/\//g, '/').replace(/^\.\//, './');
+}
+
 function CopyButton({ text }) {
   const [copied, setCopied] = useState(false);
   const copy = async () => {
@@ -46,9 +59,9 @@ export default function ProjectDetailPage({ projectId, projects }) {
     ol: ({ children }) => <ol className="my-4 pl-5 list-decimal space-y-1.5 text-sm text-text-600 leading-relaxed">{children}</ol>,
     blockquote: ({ children }) => <blockquote className="my-5 p-4 rounded-xl border-l-4 border-primary-300 bg-primary-50 text-sm text-text-600">{children}</blockquote>,
     hr: () => <hr className="my-8 border-bg-200" />,
-    img: ({ src, alt }) => <img src={src} alt={alt || ''} className="my-6 w-full rounded-xl border border-bg-200" loading="lazy" />,
-    video: ({ children, ...props }) => <video {...props} controls preload="metadata" className="my-6 w-full rounded-xl border border-bg-200 bg-text-950" >{children}</video>,
-    source: props => <source {...props} />,
+    img: ({ src, alt, ...props }) => <img {...props} src={resolveAssetUrl(src)} alt={alt || ''} className="my-6 w-full rounded-xl border border-bg-200" loading="lazy" />,
+    video: ({ children, src, poster, ...props }) => <video {...props} src={resolveAssetUrl(src)} poster={resolveAssetUrl(poster)} controls preload="metadata" className="my-6 w-full rounded-xl border border-bg-200 bg-text-950" >{children}</video>,
+    source: ({ src, ...props }) => <source {...props} src={resolveAssetUrl(src)} />,
     a: ({ href, children }) => <a href={href} target="_blank" rel="noopener noreferrer" className="text-primary-600 underline font-medium">{children}</a>,
     code: ({ inline, children, className }) => {
       const text = String(children).replace(/\n$/, '');

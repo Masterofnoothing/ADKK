@@ -62,4 +62,6 @@ Put video files in `public/videos/`. Add a native video player anywhere in the p
 
 The video appears between the surrounding Markdown content. MP4 video is recommended for browser compatibility. The player includes controls and only loads video metadata until the reader starts playback.
 
+Keep media paths relative like `images/...` and `videos/...`. The project renderer normalizes those paths against the deployed base URL, so the same post works locally and on GitHub Pages.
+
 After adding or editing a post, run `npm run build` locally. The GitHub Actions workflow rebuilds and deploys the site automatically when changes are pushed to `main`.
