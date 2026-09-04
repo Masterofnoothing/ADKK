@@ -5,7 +5,12 @@ import rehypeRaw from 'rehype-raw';
 import { ArrowLeft, Calendar, Tag, ChevronRight, Copy, Check } from 'lucide-react';
 import { loadBlogContent } from '../data/blogs';
 
-const assetBase = import.meta.env.BASE_URL || './';
+const assetBase = (() => {
+  if (typeof window === 'undefined') return import.meta.env.BASE_URL || '/';
+
+  const { pathname } = window.location;
+  return pathname.endsWith('/') ? pathname : pathname.replace(/[^/]*$/, '/');
+})();
 
 function resolveAssetUrl(url) {
   if (!url) return url;
@@ -13,9 +18,9 @@ function resolveAssetUrl(url) {
     return url;
   }
 
-  const base = assetBase === './' || assetBase === '.' ? './' : assetBase.replace(/\/$/, '');
+  const base = assetBase.replace(/\/$/, '');
   const normalizedPath = url.replace(/^(?:\.\/|\/)+/, '');
-  return `${base}/${normalizedPath}`.replace(/\/\//g, '/').replace(/^\.\//, './');
+  return `${base}/${normalizedPath}`.replace(/\/\//g, '/');
 }
 
 function CopyButton({ text }) {
