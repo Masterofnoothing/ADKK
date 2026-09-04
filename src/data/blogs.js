@@ -41,6 +41,15 @@ const projects = [
     thumbnail: '',
   },
   {
+    id: 'blender-journey',
+    title: 'Blender Journey: From Spider Bot to Scene Builds',
+    tagline: 'A learning journey that moves from a college mini project into chess pieces, environment work, and character studies.',
+    category: '3D Design',
+    date: '2026',
+    skills: ['Blender', 'Topology', 'Animation', 'Shading', 'Scene Composition'],
+    thumbnail: '',
+  },
+  {
     id: 'cgr-4legged-robot',
     title: 'Blender Model: 4-Legged Explorer Robot',
     tagline: 'A computer graphics modeling project representing a quad-legged exploratory vehicle.',

@@ -50,4 +50,16 @@ Put image files in `public/images/`. Reference them from a blog with a path rela
 
 You can add images anywhere between paragraphs, headings, lists, or code blocks. Use web-friendly `.jpg`, `.png`, `.webp`, or `.gif` files and descriptive alt text. Do not use a leading `/` in the image path because the site may be deployed under a GitHub Pages repository subpath.
 
+## Videos
+
+Put video files in `public/videos/`. Add a native video player anywhere in the post using an HTML video block. The path should be relative to the deployed site root, without a leading `/`:
+
+```html
+<video controls width="100%" poster="images/robot-video-poster.jpg">
+  <source src="videos/robot-test.mp4" type="video/mp4" />
+</video>
+```
+
+The video appears between the surrounding Markdown content. MP4 video is recommended for browser compatibility. The player includes controls and only loads video metadata until the reader starts playback.
+
 After adding or editing a post, run `npm run build` locally. The GitHub Actions workflow rebuilds and deploys the site automatically when changes are pushed to `main`.
